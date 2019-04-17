@@ -318,8 +318,14 @@ endif
 if !exists("g:DoxygenToolkit_fileTag")
   let g:DoxygenToolkit_fileTag = "@file "
 endif
+if !exists("g:DoxygenToolkit_detailsTag")
+  let g:DoxygenToolkit_detailsTag = "@details "
+endif
 if !exists("g:DoxygenToolkit_authorTag")
   let g:DoxygenToolkit_authorTag = "@author "
+endif
+if !exists("g:DoxygenToolkit_emailTag")
+  let g:DoxygenToolkit_emailTag = "@email "
 endif
 if !exists("g:DoxygenToolkit_dateTag")
   let g:DoxygenToolkit_dateTag = "@date "
@@ -485,7 +491,9 @@ function! <SID>DoxygenAuthorFunc()
   exec "normal ".l:insertionMode.s:interCommentTag.g:DoxygenToolkit_fileTag.l:fileName
   exec "normal o".s:interCommentTag.g:DoxygenToolkit_briefTag_pre
   mark d
+  exec "normal o".s:interCommentTag.g:DoxygenToolkit_detailsTag
   exec "normal o".s:interCommentTag.g:DoxygenToolkit_authorTag.g:DoxygenToolkit_authorName
+  exec "normal o".s:interCommentTag.g:DoxygenToolkit_emailTag.g:DoxygenToolkit_emailName
   exec "normal o".s:interCommentTag.g:DoxygenToolkit_versionTag.g:DoxygenToolkit_versionString
   let l:date = strftime("%Y-%m-%d")
   exec "normal o".s:interCommentTag.g:DoxygenToolkit_dateTag.l:date
@@ -1144,3 +1152,7 @@ command! -nargs=0 DoxAuthor :call <SID>DoxygenAuthorFunc()
 command! -nargs=1 DoxUndoc :call <SID>DoxygenUndocumentFunc(<q-args>)
 command! -nargs=0 DoxBlock :call <SID>DoxygenBlockFunc()
 
+map --dc :call <SID>DoxygenCommentFunc()<CR>
+map --dl :call <SID>DoxygenLicenseFunc()<CR>
+map --da :call <SID>DoxygenAuthorFunc()<CR>
+map --db :call <SID>DoxygenBlockFunc()<CR>
